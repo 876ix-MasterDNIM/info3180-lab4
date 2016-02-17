@@ -8,6 +8,8 @@ This file creates your application.
 
 from app import app
 import os
+from os import listdir
+from os.path import isfile, join
 from flask import session,flash,render_template, request, redirect, url_for
 USERNAME="admin"
 PASSWORD="naseberry"
@@ -18,6 +20,12 @@ app.config.from_object(__name__)
 ###
 # Routing for your application.
 ###
+
+@app.route('/filelisting')
+def file_listing():
+    mypath = 'app/static/uploads'
+    files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    return render_template('file.html', files=files)
 
 @app.route('/')
 def home():
